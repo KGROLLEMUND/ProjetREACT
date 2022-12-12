@@ -1,6 +1,6 @@
 ## Projet E-commerce 
 
-## Système d'exploitation:
+## Technologie:
 - Windows
 
 ## Pour le 19/12
