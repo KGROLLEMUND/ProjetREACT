@@ -1,13 +1,11 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react-hooks/exhaustive-deps */
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import React, {useEffect} from 'react';
 import {
+  Button,
   FlatList,
   Image,
   Text,
-  Touchable,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -48,6 +46,7 @@ const Product = () => {
         }}>
         <Avatar imageSource={item.image} />
         <Text>{item.title}</Text>
+        {/* <Button title="acheter" /> */}
       </TouchableOpacity>
     );
   };

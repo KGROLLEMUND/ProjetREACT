@@ -28,8 +28,8 @@ const Details = ({route}) => {
   }, []);
 
   return (
-    <View>ch
-      <Text>Details</Text>
+    <View>
+      <Text>Details du produit : </Text>
       <ScrollView>
         <Text>{product.title}</Text>
         <Avatar imageSource={product.image} />
