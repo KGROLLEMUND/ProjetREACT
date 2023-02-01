@@ -1,16 +1,87 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
-import React, {useEffect} from 'react';
-import {View, Text, ScrollView} from 'react-native';
-// import axios from 'axios';
-// import Avatar from '../../avatar';
+/* eslint-disable no-shadow */
+import {View, Text, Touchable, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {FlatList} from 'react-native';
+import Avatar from '../../avatar';
 
-//On recupere la props route à laquelle on a passé l'id d'un héro
-const Panier = () => {
-    return (
-        <View>
-          <Text>panier</Text>
-        </View>
-      );
+const Cart = () => {
+  const [cart, setCart] = useState([]);
+  const [Total_price, setTotal_price] = useState(0);
+
+  useEffect(() => {
+    AsyncStorage.getItem('cart').then(cart => {
+      if (cart) {
+        JSON.parse(cart).forEach(item => {
+          console.log(item);
+          setCart(cart => [...cart, item]);
+        });
+      }
+    });
+  }, []);
+
+  const removePanier = async () => {
+    await AsyncStorage.removeItem('cart');
+    setCart([]);
   };
-export default Panier;
+
+  const removeItem = async id => {
+    const newCart = cart.filter(item => item.id !== id);
+    await AsyncStorage.setItem('cart', JSON.stringify(newCart));
+    setCart(newCart);
+  };
+
+  // useEffect(() => {
+  //   let Total = 0;
+  //   console.log(cart);
+  //   cart.forEach(item => {
+  //     Total += parseFloat(item.price.replace(',', '.').replace('€', ''));
+  //   });
+  //   setTotal_price(Total);
+  // }, [cart]);
+
+  //total price à faire avec un useEffect qui va parcourir le tableau et additionner les prix des items du panier et les afficher dans le text total price
+  useEffect(() => {
+    let Total = 0;
+    console.log(cart);
+    cart.forEach(item => {
+      Total += parseFloat(item.price);
+    });
+    setTotal_price(Total);
+  }, [cart]);
+
+
+  const renderItem = ({item}) => {
+    return (
+      <View>
+        <Avatar imageSource={item.image} />
+        <Text>{item.name}</Text>
+        <Text>{item.price} €</Text>
+        <TouchableOpacity onPress={() => removeItem(item.id)}>
+          <Text>supprimer</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  return (
+    <View>
+      <TouchableOpacity onPress={removePanier}>
+        <Text>Vider le panier</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={removePanier}>
+        <Text>Payer</Text>
+      </TouchableOpacity>
+      <Text>Total: {Total_price} €</Text>
+      <FlatList
+        data={cart}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
+    </View>
+  );
+};
+
+export default Cart;

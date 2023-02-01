@@ -14,8 +14,8 @@ const Avatar = ({imageSource}) => {
 };
 
 const ImageCustom = styled.Image`
-  width: 90%;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   margin: 10px;
 `;
 export default Avatar;
