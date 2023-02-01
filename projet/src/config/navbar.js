@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Panier from '../screens/Panier';
 import ProductPage from './ProductStack';
+import PublicStack from './publicStack';
 
 const Tab = createBottomTabNavigator();
 

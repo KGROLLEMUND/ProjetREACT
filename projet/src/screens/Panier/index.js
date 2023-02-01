@@ -6,6 +6,7 @@ import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {FlatList} from 'react-native';
 import Avatar from '../../avatar';
+import notifee from '@notifee/react-native';
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -32,6 +33,28 @@ const Cart = () => {
     await AsyncStorage.setItem('cart', JSON.stringify(newCart));
     setCart(newCart);
   };
+
+  async function onDisplayNotification() {
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+    console.log('channel créer');
+    // Display a notification
+    await notifee.displayNotification({
+      title: 'Achat valider',
+      body: 'Vous venez de payer votre achat d un montant de ' + Total_price + ' €',
+      android: {
+        channelId,
+        smallIcon: 'ic_launcher', 
+        pressAction: {
+          id: 'default',
+        },
+      },
+    });
+    console.log('notification affiché');
+  }
 
   useEffect(() => {
     let Total = 0;
@@ -61,7 +84,7 @@ const Cart = () => {
       <TouchableOpacity onPress={removePanier}>
         <Text>Vider le panier</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={removePanier}>
+      <TouchableOpacity onPress={onDisplayNotification}>
         <Text>Payer</Text>
       </TouchableOpacity>
       <Text>Total: {Total_price} €</Text>
