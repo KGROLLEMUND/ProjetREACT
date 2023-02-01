@@ -6,7 +6,7 @@ import React, {useEffect} from 'react';
 import {Button, FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Avatar from '../../avatar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import notifee from '@notifee/react-native';
+// import notifee from '@notifee/react-native';
 
 const Product = () => {
   const [product, setProduct] = React.useState([]);

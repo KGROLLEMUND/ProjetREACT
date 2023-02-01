@@ -1,7 +1,7 @@
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-shadow */
-import {View, Text, Touchable, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Button} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {FlatList} from 'react-native';
@@ -34,27 +34,23 @@ const Cart = () => {
     setCart(newCart);
   };
 
-  async function onDisplayNotification() {
-    // Create a channel (required for Android)
-    const channelId = await notifee.createChannel({
+  const onDisplayNotification = async () => {
+    await notifee.createChannel({
       id: 'default',
       name: 'Default Channel',
     });
     console.log('channel créer');
-    // Display a notification
     await notifee.displayNotification({
       title: 'Achat valider',
       body: 'Vous venez de payer votre achat d un montant de ' + Total_price + ' €',
       android: {
-        channelId,
+        channelId: 'default',
         smallIcon: 'ic_launcher', 
-        pressAction: {
-          id: 'default',
-        },
       },
     });
     console.log('notification affiché');
-  }
+    
+  };
 
   useEffect(() => {
     let Total = 0;
@@ -84,10 +80,10 @@ const Cart = () => {
       <TouchableOpacity onPress={removePanier}>
         <Text>Vider le panier</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={onDisplayNotification}>
+      <Button title="payer" onPress={() => onDisplayNotification()}>
         <Text>Payer</Text>
-      </TouchableOpacity>
-      <Text>Total: {Total_price} €</Text>
+      </Button>
+      <Text>Total: {Total_price.toFixed(2)} €</Text>
       <FlatList
         data={cart}
         renderItem={renderItem}
