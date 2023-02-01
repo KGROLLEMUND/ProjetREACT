@@ -9,8 +9,8 @@ const Stack = createNativeStackNavigator();
 const PublicStack = ({navigation}) => {
   const [loading, setLoading] = React.useState(true);
 
-  async function onDisplayNotification() {
-    const channelId = await notifee.createChannel({
+  const onDisplayNotification = async () => {
+    await notifee.createChannel({
       id: 'default',
       name: 'Default Channel',
     });
@@ -19,12 +19,13 @@ const PublicStack = ({navigation}) => {
       title: 'Login notification',
       body: 'Vous êtes connecté',
       android: {
-        channelId,
+        channelId: 'default',
         smallIcon: 'ic_launcher',
       },
     });
     console.log('notification affiché');
-  }
+  };
+
   useEffect(() => {
     AsyncStorage.getItem('token').then(token => {
       if (token) {
