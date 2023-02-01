@@ -33,16 +33,6 @@ const Cart = () => {
     setCart(newCart);
   };
 
-  // useEffect(() => {
-  //   let Total = 0;
-  //   console.log(cart);
-  //   cart.forEach(item => {
-  //     Total += parseFloat(item.price.replace(',', '.').replace('€', ''));
-  //   });
-  //   setTotal_price(Total);
-  // }, [cart]);
-
-  //total price à faire avec un useEffect qui va parcourir le tableau et additionner les prix des items du panier et les afficher dans le text total price
   useEffect(() => {
     let Total = 0;
     console.log(cart);
